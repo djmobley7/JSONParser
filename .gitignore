@@ -1,0 +1,14 @@
+#Binaries
+*.class
+*.jar
+*.war
+
+#Maven
+target/
+
+#Eclipse
+.metadata/
+.settings/
+.classpath
+.project
+/Servers/
