@@ -64,8 +64,7 @@ public class JSONObject {
 			String value = keyValue[1].trim();
 			
 			// put commas back before saving
-			value = value.replace(String.valueOf(JSONConstants.SPECIAL_DELIM), 
-					String.valueOf(JSONConstants.ARRAY_DELIM));
+			value = value.replace(JSONConstants.SPECIAL_DELIM, JSONConstants.ARRAY_DELIM);
 			
 			if (keyValuePairsMap.put(key, value) != null) {
 				// duplicate key at this level
@@ -81,7 +80,7 @@ public class JSONObject {
 	}
 	
 	/**
-	 * Replace commons in arrays with special character
+	 * Replace commas in arrays with special character
 	 * @param sb
 	 */
 	protected void replaceCommas(StringBuilder sb) {
