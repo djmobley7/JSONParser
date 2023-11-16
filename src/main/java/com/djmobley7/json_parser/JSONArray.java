@@ -11,6 +11,8 @@ public class JSONArray {
 	}
 	
 	public boolean init(String str) {
+		valuesList.clear();
+		
 		if (str == null) {
 			return false;
 		}
