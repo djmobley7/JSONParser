@@ -4,9 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JSONObject {
-	public Map<String, String> keyValuePairsMap = new HashMap<>();
+	public Map<String, String> keyValuePairsMap;
+	
+	public JSONObject() {
+		keyValuePairsMap = new HashMap<>();
+	}
 	
 	public boolean init(String str) {
+		keyValuePairsMap.clear();
+		
 		if (str == null) {
 			return false;
 		}
@@ -26,7 +32,8 @@ public class JSONObject {
 		sb.deleteCharAt(0);
 		sb.deleteCharAt(sb.length() - 1);
 		
-		replaceArrayCommas(sb);
+		// temporarily replace all commas inside arrays so we can easily get key-value pairs
+		replaceCommas(sb);
 		
 		String[] keyValuePairs = sb.toString().split(String.valueOf(JSONConstants.KEY_VALUE_PAIR_DELIM));
 		
@@ -56,6 +63,10 @@ public class JSONObject {
 			
 			String value = keyValue[1].trim();
 			
+			// put commas back before saving
+			value = value.replace(String.valueOf(JSONConstants.SPECIAL_DELIM), 
+					String.valueOf(JSONConstants.ARRAY_DELIM));
+			
 			if (keyValuePairsMap.put(key, value) != null) {
 				// duplicate key at this level
 				return false;
@@ -65,7 +76,15 @@ public class JSONObject {
 		return true;
 	}
 	
-	protected void replaceArrayCommas(StringBuilder sb) {
+	public String getValue(String key) {
+		return keyValuePairsMap.get(key);
+	}
+	
+	/**
+	 * Replace commons in arrays with special character
+	 * @param sb
+	 */
+	protected void replaceCommas(StringBuilder sb) {
 		boolean insideArray = false;
 		
 		for (int i = 0; i < sb.length(); ++i) {
